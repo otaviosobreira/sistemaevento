@@ -1,8 +1,8 @@
 package com.desavio02.sistemaevento.entities;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,25 +13,27 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_category")
-public class Category {
+@Table(name = "tb_participant")
+public class Participant {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String name;
 	
-	@Column(columnDefinition = "TEXT")
-	private String description;
+	@Column(unique = true)
+	private String email;
 	
-	@OneToMany(mappedBy = "categories")
-	private Set<Activity> activies = new HashSet<>();
+	@OneToMany(mappedBy = "participant")
+	private List<Activity> activies = new ArrayList<>();
 	
-	public Category() {
+	public Participant() {
 	}
 
-	public Category(Long id, String description) {
+	public Participant(Long id, String name, String email) {
 		this.id = id;
-		this.description = description;
+		this.name = name;
+		this.email = email;
 	}
 
 	public Long getId() {
@@ -42,12 +44,24 @@ public class Category {
 		this.id = id;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getName() {
+		return name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public List<Activity> getActivies() {
+		return activies;
 	}
 
 	@Override
@@ -63,7 +77,7 @@ public class Category {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Category other = (Category) obj;
+		Participant other = (Participant) obj;
 		return Objects.equals(id, other.id);
 	}
 	

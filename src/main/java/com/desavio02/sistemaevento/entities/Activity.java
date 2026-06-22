@@ -1,6 +1,7 @@
 package com.desavio02.sistemaevento.entities;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -8,7 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,17 +27,25 @@ public class Activity {
 	private String description;
 	private Double price;
 	
+	@OneToMany
+	@JoinColumn(name = "participant_id")
+	private Participant participant;
+	
 	@ManyToOne
 	private Set<Category> categories = new HashSet<>();
+	
+	@OneToMany
+	private Set<Block> block = new HashSet<>();
 	
 	public Activity() {
 	}
 
-	public Activity(Long id, String name, String description, Double price) {
+	public Activity(Long id, String name, String description, Double price, Participant participant) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
+		this.participant = participant;
 	}
 
 	public Long getId() {
@@ -67,6 +78,31 @@ public class Activity {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Participant getParticipant() {
+		return participant;
+	}
+
+	public void setParticipant(Participant participant) {
+		this.participant = participant;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Activity other = (Activity) obj;
+		return Objects.equals(id, other.id);
 	}
 	
 	
