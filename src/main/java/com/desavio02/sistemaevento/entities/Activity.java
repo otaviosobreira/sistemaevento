@@ -10,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -27,12 +29,17 @@ public class Activity {
 	private String description;
 	private Double price;
 	
-	@OneToMany
-	@JoinColumn(name = "participant_id")
-	private Participant participant;
+	@ManyToMany
+	@JoinTable(
+			name = "tb_activity_participant",
+			joinColumns = @JoinColumn(name = "activity_id"),
+			inverseJoinColumns = @JoinColumn(name = "participant_id"))
+	private Set<Participant> participants = new HashSet<>();
+	
 	
 	@ManyToOne
-	private Set<Category> categories = new HashSet<>();
+	@JoinColumn(name = "category_id")
+	private Category category;
 	
 	@OneToMany
 	private Set<Block> block = new HashSet<>();
@@ -40,12 +47,12 @@ public class Activity {
 	public Activity() {
 	}
 
-	public Activity(Long id, String name, String description, Double price, Participant participant) {
+	public Activity(Long id, String name, String description, Double price, Category category) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.price = price;
-		this.participant = participant;
+		this.category = category;
 	}
 
 	public Long getId() {
@@ -80,12 +87,12 @@ public class Activity {
 		this.price = price;
 	}
 
-	public Participant getParticipant() {
-		return participant;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setParticipant(Participant participant) {
-		this.participant = participant;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@Override

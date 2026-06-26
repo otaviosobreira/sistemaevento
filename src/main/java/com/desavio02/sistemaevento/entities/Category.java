@@ -23,7 +23,7 @@ public class Category {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 	
-	@OneToMany(mappedBy = "categories")
+	@OneToMany(mappedBy = "category")
 	private Set<Activity> activies = new HashSet<>();
 	
 	public Category() {

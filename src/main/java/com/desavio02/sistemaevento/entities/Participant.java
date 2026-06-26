@@ -9,7 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,7 +24,7 @@ public class Participant {
 	@Column(unique = true)
 	private String email;
 	
-	@OneToMany(mappedBy = "participant")
+	@ManyToMany
 	private List<Activity> activies = new ArrayList<>();
 	
 	public Participant() {
