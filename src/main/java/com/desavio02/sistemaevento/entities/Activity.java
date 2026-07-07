@@ -41,7 +41,7 @@ public class Activity {
 	@JoinColumn(name = "category_id")
 	private Category category;
 	
-	@OneToMany
+	@ManyToMany (mappedBy = "activies")
 	private Set<Block> block = new HashSet<>();
 	
 	public Activity() {
