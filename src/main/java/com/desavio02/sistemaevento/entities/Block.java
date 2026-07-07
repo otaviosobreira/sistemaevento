@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
@@ -27,6 +29,10 @@ public class Block {
 	private Instant fim;
 	
 	@ManyToMany
+	@JoinTable(
+	        name = "tb_block_activity",
+	        joinColumns = @JoinColumn(name = "block_id"),
+	        inverseJoinColumns = @JoinColumn(name = "activity_id"))
 	private Set<Activity> activies = new HashSet<>();
 	
 	public Block() {
